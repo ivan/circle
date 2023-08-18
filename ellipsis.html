@@ -48,7 +48,7 @@ let info = document.getElementById("info");
 
 function draw(touchX, touchY) {
 	ctx.fillStyle = "#0f0";
-	ctx.fillRect(touchX, touchY, 1, 1);
+	ctx.fillRect(touchX + centerX, -touchY + centerY, 1, 1);
 }
 
 function fill_background() {
@@ -62,6 +62,11 @@ function fill_axes() {
 	ctx.fillRect(0, centerY, canvas.width, 1);
 }
 
+function clear() {
+	fill_background();
+	fill_axes();
+}
+
 function resize() {
 	canvas.width = Math.ceil(window.innerWidth / pixelSize);
 	canvas.height = Math.ceil(window.innerHeight / pixelSize);
@@ -69,8 +74,11 @@ function resize() {
 	canvas.style.height = `${canvas.height * pixelSize}px`;
 	centerX = Math.round(canvas.width / 2);
 	centerY = Math.round(canvas.height / 2);
-	fill_background();
-	fill_axes();
+	clear();
+}
+
+function draw_circle(radius) {
+	
 }
 
 function setup() {
@@ -79,9 +87,11 @@ function setup() {
 	resize();
 	window.onresize = resize;
 	canvas.onmousemove = function(ev) {
-		const touchX = Math.floor(ev.clientX / pixelSize);
-		const touchY = Math.floor(ev.clientY / pixelSize);
+		const touchX = Math.floor(ev.clientX / pixelSize) - centerX;
+		const touchY = -(Math.floor(ev.clientY / pixelSize) - centerY);
+		clear();
 		draw(touchX, touchY);
+		info.textContent = `(${touchX}, ${touchY})`;
 	}
 }
 
