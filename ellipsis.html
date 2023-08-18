@@ -78,15 +78,15 @@ function resize() {
 }
 
 function draw_circle() {
-	ctx.fillStyle = "#0f0";
-	let x = radius;
-	let y = 0;
 	// The idea is to start at (radius, 0), and for each iteration,
 	// determine whether we're closest to the radius if we go up a pixel,
 	// left a pixel, or up and left a pixel.
+	let x = radius;
+	let y = 0;
 	let upError;
 	let upAndLeftError;
 	let leftError;
+	ctx.fillStyle = "#0f0";
 	while (x >= 0) {
 		// The first one here correctly corresponds to the "up" and "left" errors
 		ctx.fillRect(x + centerX, -y + centerY, 1, 1); // top right
