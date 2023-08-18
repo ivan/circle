@@ -77,8 +77,11 @@ function resize() {
 	clear();
 }
 
-function draw_circle(radius) {
-	
+function draw_circle() {
+	draw(0, radius);
+	draw(0, -radius);
+	draw(radius, 0);
+	draw(-radius, 0);
 }
 
 function setup() {
@@ -90,8 +93,9 @@ function setup() {
 		const coordX = Math.floor(ev.clientX / pixelSize) - centerX;
 		const coordY = -(Math.floor(ev.clientY / pixelSize) - centerY);
 		clear();
-		draw(coordX, coordY);
-		info.textContent = `(${coordX}, ${coordY})`;
+		radius = Math.floor(Math.sqrt(coordX ** 2 + coordY ** 2));
+		draw_circle();
+		info.textContent = `(${coordX}, ${coordY}), r = ${radius}`;
 	}
 }
 
