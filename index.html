@@ -80,9 +80,9 @@ function draw_circle() {
 	// left a pixel, or up and left a pixel.
 	let x = radius;
 	let y = 0;
-	let upError;
-	let upAndLeftError;
-	let leftError;
+	let up_error;
+	let up_left_error;
+	let left_error;
 	ctx.fillStyle = "#0f0";
 	while (x >= 0) {
 		// The first one here correctly corresponds to the "up" and "left" errors
@@ -91,12 +91,12 @@ function draw_circle() {
 		ctx.fillRect(-x + center_x, -y + center_y, 1, 1); // top left
 		ctx.fillRect(-x + center_x,  y + center_y, 1, 1); // bottom left
 
-		upError        = Math.abs(radius - Math.sqrt((x - 0) ** 2 + (y + 1) ** 2));
-		leftError      = Math.abs(radius - Math.sqrt((x - 1) ** 2 + (y + 0) ** 2));
-		upAndLeftError = Math.abs(radius - Math.sqrt((x - 1) ** 2 + (y + 1) ** 2));
-		if (upError < upAndLeftError && upError < leftError) {
+		up_error      = Math.abs(radius - Math.sqrt((x - 0) ** 2 + (y + 1) ** 2));
+		left_error    = Math.abs(radius - Math.sqrt((x - 1) ** 2 + (y + 0) ** 2));
+		up_left_error = Math.abs(radius - Math.sqrt((x - 1) ** 2 + (y + 1) ** 2));
+		if (up_error < up_left_error && up_error < left_error) {
 			y += 1;
-		} else if (leftError < upAndLeftError && leftError < upError) {
+		} else if (left_error < up_left_error && left_error < up_error) {
 			x -= 1;
 		} else {
 			y += 1;
