@@ -56,8 +56,6 @@ function fill_axes() {
 }
 
 function clear() {
-	// Clear rects
-	ctx.reset();
 	fill_background();
 	fill_axes();
 }
@@ -92,16 +90,16 @@ function draw_circle() {
 	const stop = Math.floor(radius / Math.sqrt(2));
 	while (x >= stop) {
 		// The first one here correctly corresponds to the "up" and "left" errors
-		ctx.rect(x + center_x, -y + center_y, 1, 1); // top right
-		ctx.rect(x + center_x,  y + center_y, 1, 1); // bottom right
-		ctx.rect(-x + center_x, -y + center_y, 1, 1); // top left
-		ctx.rect(-x + center_x,  y + center_y, 1, 1); // bottom left
+		ctx.fillRect(x + center_x, -y + center_y, 1, 1); // top right
+		ctx.fillRect(x + center_x,  y + center_y, 1, 1); // bottom right
+		ctx.fillRect(-x + center_x, -y + center_y, 1, 1); // top left
+		ctx.fillRect(-x + center_x,  y + center_y, 1, 1); // bottom left
 
 		// rotated 90 deg
-		ctx.rect(y + center_x, -x + center_y, 1, 1);
-		ctx.rect(y + center_x,  x + center_y, 1, 1);
-		ctx.rect(-y + center_x, -x + center_y, 1, 1);
-		ctx.rect(-y + center_x,  x + center_y, 1, 1);
+		ctx.fillRect(y + center_x, -x + center_y, 1, 1);
+		ctx.fillRect(y + center_x,  x + center_y, 1, 1);
+		ctx.fillRect(-y + center_x, -x + center_y, 1, 1);
+		ctx.fillRect(-y + center_x,  x + center_y, 1, 1);
 
 		up_sq         = (y + 1) ** 2;
 		up_error      = Math.abs(radius - Math.sqrt(      x ** 2 + up_sq));
@@ -113,7 +111,6 @@ function draw_circle() {
 			x -= 1;
 		}
 	}
-	ctx.fill();
 	time_to_draw = performance.now() - start;
 }
 
