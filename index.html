@@ -87,6 +87,11 @@ function draw_circle() {
 	let up_left_error;
 	let left_error;
 	ctx.fillStyle = "#0f0";
+
+	if (radius === 0) {
+		ctx.fillRect(center_x, center_y, 1, 1);
+	}
+
 	const stop = Math.max(0, Math.floor(radius / Math.sqrt(2)) - 1);
 	while (x > stop) {
 		// The first one here correctly corresponds to the "up" and "left" errors
