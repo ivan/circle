@@ -16,7 +16,6 @@
 
 	#canvas {
 		image-rendering: pixelated;
-		cursor: none;
 	}
 
 	#info {
@@ -49,11 +48,6 @@ let info = document.getElementById("info");
 
 function draw(coordX, coordY) {
 	ctx.fillStyle = "#0f0";
-	ctx.fillRect(coordX + centerX, -coordY + centerY, 1, 1);
-}
-
-function draw_cursor(coordX, coordY) {
-	ctx.fillStyle = "#f00";
 	ctx.fillRect(coordX + centerX, -coordY + centerY, 1, 1);
 }
 
@@ -101,7 +95,6 @@ function setup() {
 		clear();
 		radius = Math.floor(Math.sqrt(coordX ** 2 + coordY ** 2));
 		draw_circle();
-		draw_cursor(coordX, coordY);
 		info.textContent = `(${coordX}, ${coordY}), r = ${radius}`;
 	}
 }
