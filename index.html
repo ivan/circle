@@ -137,6 +137,7 @@ function key_press(ev) {
 function setup() {
 	canvas = document.getElementById("canvas");
 	ctx = canvas.getContext("2d");
+	ctx.imageSmoothingEnabled = false;
 	resize();
 	window.onresize = resize;
 	canvas.onmousemove = (ev) => {
