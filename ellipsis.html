@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Ellipsis</title>
+</head>
+<body>
+<style>
+	html, body {
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+</style>
+<canvas id="canvas"></canvas>
+<script>
+let centerX;
+let centerY;
+let canvas;
+let ctx;
+
+// Ellipse formula:
+// x^2 + y^2 = r^2
+
+function draw(touchX, touchY) {
+	ctx.fillStyle = "green";
+	ctx.fillRect(touchX, touchY, 2, 2);
+}
+
+function fill_background() {
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function setup() {
+	canvas = document.getElementById("canvas");
+	ctx = canvas.getContext("2d");
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	fill_background();
+	centerX = Math.round(window.innerWidth / 2);
+	centerY = Math.round(window.innerHeight / 2);
+	canvas.onmousemove = function(ev) {
+		const touchX = ev.clientX;
+		const touchY = ev.clientY;
+		draw(touchX, touchY);
+	}
+}
+
+setup();
+</script>
+</body>
+</html>
