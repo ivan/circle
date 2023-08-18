@@ -55,14 +55,21 @@ function fill_background() {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function fill_axes() {
+	ctx.fillStyle = "#222";
+	ctx.fillRect(centerX, 0, 1, canvas.height);
+	ctx.fillRect(0, centerY, canvas.width, 1);
+}
+
 function resize() {
 	canvas.width = Math.ceil(window.innerWidth / pixelSize);
 	canvas.height = Math.ceil(window.innerHeight / pixelSize);
 	canvas.style.width = `${canvas.width * pixelSize}px`;
 	canvas.style.height = `${canvas.height * pixelSize}px`;
+	centerX = Math.round(canvas.width / 2);
+	centerY = Math.round(canvas.height / 2);
 	fill_background();
-	centerX = Math.round(window.innerWidth / 2);
-	centerY = Math.round(window.innerHeight / 2);
+	fill_axes();
 }
 
 function setup() {
