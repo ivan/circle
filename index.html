@@ -105,9 +105,11 @@ function draw_circle() {
 		ctx.fillRect(-y + center_x,  x + center_y, 1, 1);
 
 		up_sq         = (y + 1) ** 2;
-		up_error      = Math.abs(radius - Math.sqrt(      x ** 2 + up_sq));
-		up_left_error = Math.abs(radius - Math.sqrt((x - 1) ** 2 + up_sq));
-		if (up_error < up_left_error) {
+		// Casey's optimization to remove Math.abs:
+		// https://www.youtube.com/watch?v=JtgQJT08J1g&t=1900s
+		up_error      = radius - Math.sqrt(      x ** 2 + up_sq);
+		up_left_error = radius - Math.sqrt((x - 1) ** 2 + up_sq);
+		if (-up_error < up_left_error) {
 			y += 1;
 		} else {
 			y += 1;
