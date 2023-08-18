@@ -41,6 +41,7 @@ let centerY;
 let canvas;
 let ctx;
 let radius;
+let info = document.getElementById("info");
 
 // Circle formula:
 // x^2 + y^2 = r^2
@@ -51,7 +52,7 @@ function draw(touchX, touchY) {
 }
 
 function fill_background() {
-	ctx.fillStyle = "black";
+	ctx.fillStyle = "#000";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
