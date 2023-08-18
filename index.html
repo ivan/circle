@@ -41,6 +41,7 @@ let center_y;
 let canvas;
 let ctx;
 let radius;
+let time_to_draw;
 let info = document.getElementById("info");
 
 function fill_background() {
@@ -70,6 +71,7 @@ function resize() {
 }
 
 function draw_circle() {
+	const start = performance.now();
 	// Circle formula:
 	// x^2 + y^2 = r^2
 	//
@@ -101,6 +103,23 @@ function draw_circle() {
 			x -= 1;
 		}
 	}
+	time_to_draw = performance.now() - start;
+}
+
+function key_press(ev) {
+	if (ev.ctrlKey || ev.altKey || ev.metaKey) {
+			return;
+	}
+
+	if (ev.which === 60) { // <
+		console.log(`Halving pixel size`);
+		pixel_size = Math.max(1, pixel_size / 2);
+		resize();
+	} else if (ev.which === 62) { // >
+		console.log(`Doubling pixel size`);
+		pixel_size *= 2;
+		resize();
+	}
 }
 
 function setup() {
@@ -114,8 +133,10 @@ function setup() {
 		clear();
 		radius = Math.floor(Math.sqrt(coord_x ** 2 + coord_y ** 2));
 		draw_circle();
-		info.textContent = `(${coord_x}, ${coord_y}), r = ${radius}`;
+		info.textContent = `(${coord_x}, ${coord_y}), r = ${radius}, time = ${Math.round(time_to_draw * 10) / 10}ms`;
 	};
+
+	document.onkeypress = key_press;
 }
 
 setup();
