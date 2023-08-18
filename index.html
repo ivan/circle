@@ -35,7 +35,7 @@
 <div id="info">Info</div>
 <canvas id="canvas"></canvas>
 <script>
-let pixel_size = 8;
+let pixel_size = Number(localStorage.getItem("circle-pixel-size")) || 8;
 let center_x;
 let center_y;
 let canvas;
@@ -106,6 +106,12 @@ function draw_circle() {
 	time_to_draw = performance.now() - start;
 }
 
+function set_pixel_size(new_pixel_size) {
+	pixel_size = new_pixel_size;
+	resize();
+	localStorage.setItem("circle-pixel-size", pixel_size);
+}
+
 function key_press(ev) {
 	if (ev.ctrlKey || ev.altKey || ev.metaKey) {
 			return;
@@ -113,12 +119,10 @@ function key_press(ev) {
 
 	if (ev.which === 60) { // <
 		console.log(`Halving pixel size`);
-		pixel_size = Math.max(1, pixel_size / 2);
-		resize();
+		set_pixel_size(Math.max(1, pixel_size / 2));
 	} else if (ev.which === 62) { // >
 		console.log(`Doubling pixel size`);
-		pixel_size *= 2;
-		resize();
+		set_pixel_size(pixel_size * 2);
 	}
 }
 
