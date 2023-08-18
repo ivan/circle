@@ -39,10 +39,10 @@ function fill_background() {
 }
 
 function resize() {
-	canvas.width = window.innerWidth / pixelSize;
-	canvas.height = window.innerHeight / pixelSize;
-	canvas.style.width = `${window.innerWidth}px`;
-	canvas.style.height = `${window.innerHeight}px`;
+	canvas.width = Math.ceil(window.innerWidth / pixelSize);
+	canvas.height = Math.ceil(window.innerHeight / pixelSize);
+	canvas.style.width = `${canvas.width * pixelSize}px`;
+	canvas.style.height = `${canvas.height * pixelSize}px`;
 	fill_background();
 	centerX = Math.round(window.innerWidth / 2);
 	centerY = Math.round(window.innerHeight / 2);
@@ -54,8 +54,8 @@ function setup() {
 	resize();
 	window.onresize = resize;
 	canvas.onmousemove = function(ev) {
-		const touchX = Math.round(ev.clientX / pixelSize);
-		const touchY = Math.round(ev.clientY / pixelSize);
+		const touchX = Math.floor(ev.clientX / pixelSize);
+		const touchY = Math.floor(ev.clientY / pixelSize);
 		draw(touchX, touchY);
 	}
 }
