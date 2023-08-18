@@ -78,26 +78,33 @@ function draw_circle() {
 	// The idea is to start at (radius, 0), and for each iteration,
 	// determine whether we're closest to the radius if we go up a pixel,
 	// left a pixel, or up and left a pixel.
+	//
+	// The next insight is that we really only have to compute 1/8 of the circle.
+	// This allows us to check just "up" vs "up and left" instead of 3 things.
 	let x = radius;
 	let y = 0;
 	let up_error;
 	let up_left_error;
 	let left_error;
 	ctx.fillStyle = "#0f0";
-	while (x >= 0) {
+	const stop = Math.floor(radius / Math.sqrt(2));
+	while (x >= stop) {
 		// The first one here correctly corresponds to the "up" and "left" errors
 		ctx.fillRect(x + center_x, -y + center_y, 1, 1); // top right
 		ctx.fillRect(x + center_x,  y + center_y, 1, 1); // bottom right
 		ctx.fillRect(-x + center_x, -y + center_y, 1, 1); // top left
 		ctx.fillRect(-x + center_x,  y + center_y, 1, 1); // bottom left
 
+		// rotated 90 deg
+		ctx.fillRect(y + center_x, -x + center_y, 1, 1);
+		ctx.fillRect(y + center_x,  x + center_y, 1, 1);
+		ctx.fillRect(-y + center_x, -x + center_y, 1, 1);
+		ctx.fillRect(-y + center_x,  x + center_y, 1, 1);
+
 		up_error      = Math.abs(radius - Math.sqrt((x - 0) ** 2 + (y + 1) ** 2));
-		left_error    = Math.abs(radius - Math.sqrt((x - 1) ** 2 + (y + 0) ** 2));
 		up_left_error = Math.abs(radius - Math.sqrt((x - 1) ** 2 + (y + 1) ** 2));
-		if (up_error < up_left_error && up_error < left_error) {
+		if (up_error < up_left_error) {
 			y += 1;
-		} else if (left_error < up_left_error && left_error < up_error) {
-			x -= 1;
 		} else {
 			y += 1;
 			x -= 1;
