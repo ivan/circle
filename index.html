@@ -35,21 +35,13 @@
 <div id="info">Info</div>
 <canvas id="canvas"></canvas>
 <script>
-let pixelSize = 8;
-let centerX;
-let centerY;
+let pixel_size = 8;
+let center_x;
+let center_y;
 let canvas;
 let ctx;
 let radius;
 let info = document.getElementById("info");
-
-// Circle formula:
-// x^2 + y^2 = r^2
-
-function draw(coordX, coordY) {
-	ctx.fillStyle = "#0f0";
-	ctx.fillRect(coordX + centerX, -coordY + centerY, 1, 1);
-}
 
 function fill_background() {
 	ctx.fillStyle = "#000";
@@ -58,8 +50,8 @@ function fill_background() {
 
 function fill_axes() {
 	ctx.fillStyle = "#222";
-	ctx.fillRect(centerX, 0, 1, canvas.height);
-	ctx.fillRect(0, centerY, canvas.width, 1);
+	ctx.fillRect(center_x, 0, 1, canvas.height);
+	ctx.fillRect(0, center_y, canvas.width, 1);
 }
 
 function clear() {
@@ -68,16 +60,19 @@ function clear() {
 }
 
 function resize() {
-	canvas.width = Math.ceil(window.innerWidth / pixelSize);
-	canvas.height = Math.ceil(window.innerHeight / pixelSize);
-	canvas.style.width = `${canvas.width * pixelSize}px`;
-	canvas.style.height = `${canvas.height * pixelSize}px`;
-	centerX = Math.round(canvas.width / 2);
-	centerY = Math.round(canvas.height / 2);
+	canvas.width = Math.ceil(window.innerWidth / pixel_size);
+	canvas.height = Math.ceil(window.innerHeight / pixel_size);
+	canvas.style.width = `${canvas.width * pixel_size}px`;
+	canvas.style.height = `${canvas.height * pixel_size}px`;
+	center_x = Math.round(canvas.width / 2);
+	center_y = Math.round(canvas.height / 2);
 	clear();
 }
 
 function draw_circle() {
+	// Circle formula:
+	// x^2 + y^2 = r^2
+	//
 	// The idea is to start at (radius, 0), and for each iteration,
 	// determine whether we're closest to the radius if we go up a pixel,
 	// left a pixel, or up and left a pixel.
@@ -89,10 +84,10 @@ function draw_circle() {
 	ctx.fillStyle = "#0f0";
 	while (x >= 0) {
 		// The first one here correctly corresponds to the "up" and "left" errors
-		ctx.fillRect(x + centerX, -y + centerY, 1, 1); // top right
-		ctx.fillRect(x + centerX,  y + centerY, 1, 1); // bottom right
-		ctx.fillRect(-x + centerX, -y + centerY, 1, 1); // top left
-		ctx.fillRect(-x + centerX,  y + centerY, 1, 1); // bottom left
+		ctx.fillRect(x + center_x, -y + center_y, 1, 1); // top right
+		ctx.fillRect(x + center_x,  y + center_y, 1, 1); // bottom right
+		ctx.fillRect(-x + center_x, -y + center_y, 1, 1); // top left
+		ctx.fillRect(-x + center_x,  y + center_y, 1, 1); // bottom left
 
 		upError        = Math.abs(radius - Math.sqrt((x - 0) ** 2 + (y + 1) ** 2));
 		leftError      = Math.abs(radius - Math.sqrt((x - 1) ** 2 + (y + 0) ** 2));
@@ -113,14 +108,14 @@ function setup() {
 	ctx = canvas.getContext("2d");
 	resize();
 	window.onresize = resize;
-	canvas.onmousemove = function(ev) {
-		const coordX = Math.floor(ev.clientX / pixelSize) - centerX;
-		const coordY = -(Math.floor(ev.clientY / pixelSize) - centerY);
+	canvas.onmousemove = (ev) => {
+		const coord_x = Math.floor(ev.clientX / pixel_size) - center_x;
+		const coord_y = -(Math.floor(ev.clientY / pixel_size) - center_y);
 		clear();
-		radius = Math.floor(Math.sqrt(coordX ** 2 + coordY ** 2));
+		radius = Math.floor(Math.sqrt(coord_x ** 2 + coord_y ** 2));
 		draw_circle();
-		info.textContent = `(${coordX}, ${coordY}), r = ${radius}`;
-	}
+		info.textContent = `(${coord_x}, ${coord_y}), r = ${radius}`;
+	};
 }
 
 setup();
