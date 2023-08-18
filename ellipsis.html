@@ -46,9 +46,9 @@ let info = document.getElementById("info");
 // Circle formula:
 // x^2 + y^2 = r^2
 
-function draw(touchX, touchY) {
+function draw(coordX, coordY) {
 	ctx.fillStyle = "#0f0";
-	ctx.fillRect(touchX + centerX, -touchY + centerY, 1, 1);
+	ctx.fillRect(coordX + centerX, -coordY + centerY, 1, 1);
 }
 
 function fill_background() {
@@ -87,11 +87,11 @@ function setup() {
 	resize();
 	window.onresize = resize;
 	canvas.onmousemove = function(ev) {
-		const touchX = Math.floor(ev.clientX / pixelSize) - centerX;
-		const touchY = -(Math.floor(ev.clientY / pixelSize) - centerY);
+		const coordX = Math.floor(ev.clientX / pixelSize) - centerX;
+		const coordY = -(Math.floor(ev.clientY / pixelSize) - centerY);
 		clear();
-		draw(touchX, touchY);
-		info.textContent = `(${touchX}, ${touchY})`;
+		draw(coordX, coordY);
+		info.textContent = `(${coordX}, ${coordY})`;
 	}
 }
 
