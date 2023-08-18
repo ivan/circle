@@ -33,14 +33,19 @@ function fill_background() {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function setup() {
-	canvas = document.getElementById("canvas");
-	ctx = canvas.getContext("2d");
+function resize() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	fill_background();
 	centerX = Math.round(window.innerWidth / 2);
 	centerY = Math.round(window.innerHeight / 2);
+}
+
+function setup() {
+	canvas = document.getElementById("canvas");
+	ctx = canvas.getContext("2d");
+	resize();
+	window.onresize = resize;
 	canvas.onmousemove = function(ev) {
 		const touchX = ev.clientX;
 		const touchY = ev.clientY;
