@@ -39,6 +39,8 @@
 let pixel_size = Number(localStorage.getItem("circle-pixel-size")) || 8;
 let center_x;
 let center_y;
+let coord_x;
+let coord_y;
 let canvas;
 let ctx;
 let radius;
@@ -56,11 +58,6 @@ function fill_axes() {
 	ctx.fillRect(0, center_y, canvas.width, 1);
 }
 
-function clear() {
-	fill_background();
-	fill_axes();
-}
-
 function resize() {
 	canvas.width = Math.ceil(window.innerWidth / pixel_size);
 	canvas.height = Math.ceil(window.innerHeight / pixel_size);
@@ -68,7 +65,7 @@ function resize() {
 	canvas.style.height = `${canvas.height * pixel_size}px`;
 	center_x = Math.round(canvas.width / 2);
 	center_y = Math.round(canvas.height / 2);
-	clear();
+	redraw();
 }
 
 function draw_circle() {
@@ -126,18 +123,34 @@ function set_pixel_size(new_pixel_size) {
 	localStorage.setItem("circle-pixel-size", pixel_size);
 }
 
+function redraw() {
+	fill_background();
+	fill_axes();
+	radius = Math.floor(Math.sqrt(coord_x ** 2 + coord_y ** 2));
+	draw_circle();
+	info.textContent = `(${coord_x}, ${coord_y}), r = ${radius}, time = ${Math.round(time_to_draw * 10) / 10}ms\n< and > keys change pixel size`;
+}
+
 function key_press(ev) {
 	if (ev.ctrlKey || ev.altKey || ev.metaKey) {
 			return;
 	}
 
 	if (ev.which === 60) { // <
-		console.log(`Halving pixel size`);
-		set_pixel_size(Math.max(1, pixel_size / 2));
+		if (pixel_size > 1) {
+			console.log(`Halving pixel size`);
+			set_pixel_size(pixel_size / 2);
+			// Keep the new circle the same visible size before we get another mousemove event
+			coord_x *= 2;
+			coord_y *= 2;
+		}
 	} else if (ev.which === 62) { // >
 		console.log(`Doubling pixel size`);
 		set_pixel_size(pixel_size * 2);
+		coord_x /= 2;
+		coord_y /= 2;
 	}
+	redraw();
 }
 
 function setup() {
@@ -147,12 +160,9 @@ function setup() {
 	resize();
 	window.onresize = resize;
 	canvas.onmousemove = (ev) => {
-		const coord_x = Math.floor(ev.clientX / pixel_size) - center_x;
-		const coord_y = -(Math.floor(ev.clientY / pixel_size) - center_y);
-		clear();
-		radius = Math.floor(Math.sqrt(coord_x ** 2 + coord_y ** 2));
-		draw_circle();
-		info.textContent = `(${coord_x}, ${coord_y}), r = ${radius}, time = ${Math.round(time_to_draw * 10) / 10}ms\n< and > keys change pixel size`;
+		coord_x = Math.floor(ev.clientX / pixel_size) - center_x;
+		coord_y = -(Math.floor(ev.clientY / pixel_size) - center_y);
+		redraw();
 	};
 
 	document.onkeypress = key_press;
