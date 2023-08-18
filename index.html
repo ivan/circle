@@ -84,6 +84,7 @@ function draw_circle() {
 	let up_error;
 	let up_left_error;
 	let left_error;
+	const radius_sq = radius ** 2;
 	ctx.fillStyle = "#0f0";
 
 	if (radius === 0) {
@@ -107,8 +108,8 @@ function draw_circle() {
 		up_sq         = (y + 1) ** 2;
 		// Casey's optimization to remove Math.abs:
 		// https://www.youtube.com/watch?v=JtgQJT08J1g&t=1900s
-		up_error      = radius - Math.sqrt(      x ** 2 + up_sq);
-		up_left_error = radius - Math.sqrt((x - 1) ** 2 + up_sq);
+		up_error      = radius_sq - (      x ** 2 + up_sq);
+		up_left_error = radius_sq - ((x - 1) ** 2 + up_sq);
 		if (-up_error < up_left_error) {
 			y += 1;
 		} else {
