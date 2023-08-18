@@ -30,6 +30,7 @@
 		left: 8px;
 		/* Don't catch mouse events intended for the canvas */
 		pointer-events: none;
+		white-space: pre;
 	}
 </style>
 <div id="info">Info</div>
@@ -151,7 +152,7 @@ function setup() {
 		clear();
 		radius = Math.floor(Math.sqrt(coord_x ** 2 + coord_y ** 2));
 		draw_circle();
-		info.textContent = `(${coord_x}, ${coord_y}), r = ${radius}, time = ${Math.round(time_to_draw * 10) / 10}ms`;
+		info.textContent = `(${coord_x}, ${coord_y}), r = ${radius}, time = ${Math.round(time_to_draw * 10) / 10}ms\n< and > keys change pixel size`;
 	};
 
 	document.onkeypress = key_press;
