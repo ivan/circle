@@ -63,8 +63,8 @@ function resize() {
 	canvas.height = Math.ceil(window.innerHeight / pixel_size);
 	canvas.style.width = `${canvas.width * pixel_size}px`;
 	canvas.style.height = `${canvas.height * pixel_size}px`;
-	center_x = Math.round(canvas.width / 2);
-	center_y = Math.round(canvas.height / 2);
+	center_x = Math.floor(canvas.width / 2);
+	center_y = Math.floor(canvas.height / 2);
 	redraw();
 }
 
