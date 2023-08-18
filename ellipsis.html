@@ -12,9 +12,14 @@
 		padding: 0;
 		overflow: hidden;
 	}
+
+	canvas {
+		image-rendering: pixelated;
+	}
 </style>
 <canvas id="canvas"></canvas>
 <script>
+let pixelSize = 8;
 let centerX;
 let centerY;
 let canvas;
@@ -24,8 +29,8 @@ let ctx;
 // x^2 + y^2 = r^2
 
 function draw(touchX, touchY) {
-	ctx.fillStyle = "green";
-	ctx.fillRect(touchX, touchY, 2, 2);
+	ctx.fillStyle = "#0f0";
+	ctx.fillRect(touchX, touchY, 1, 1);
 }
 
 function fill_background() {
@@ -34,8 +39,10 @@ function fill_background() {
 }
 
 function resize() {
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	canvas.width = window.innerWidth / pixelSize;
+	canvas.height = window.innerHeight / pixelSize;
+	canvas.style.width = `${window.innerWidth}px`;
+	canvas.style.height = `${window.innerHeight}px`;
 	fill_background();
 	centerX = Math.round(window.innerWidth / 2);
 	centerY = Math.round(window.innerHeight / 2);
@@ -47,8 +54,8 @@ function setup() {
 	resize();
 	window.onresize = resize;
 	canvas.onmousemove = function(ev) {
-		const touchX = ev.clientX;
-		const touchY = ev.clientY;
+		const touchX = Math.round(ev.clientX / pixelSize);
+		const touchY = Math.round(ev.clientY / pixelSize);
 		draw(touchX, touchY);
 	}
 }
