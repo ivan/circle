@@ -8,15 +8,30 @@
 <body>
 <style>
 	html, body {
+		background-color: #000;
 		margin: 0;
 		padding: 0;
 		overflow: hidden;
 	}
 
-	canvas {
+	#canvas {
 		image-rendering: pixelated;
 	}
+
+	#info {
+		color: #0f0;
+		text-shadow:
+			0 0 2px #000,
+			0 0 2px #000,
+			0 0 2px #000;
+		position: absolute;
+		top: 4px;
+		left: 8px;
+		/* Don't catch mouse events intended for the canvas */
+		pointer-events: none;
+	}
 </style>
+<div id="info">Info</div>
 <canvas id="canvas"></canvas>
 <script>
 let pixelSize = 8;
@@ -24,8 +39,9 @@ let centerX;
 let centerY;
 let canvas;
 let ctx;
+let radius;
 
-// Ellipse formula:
+// Circle formula:
 // x^2 + y^2 = r^2
 
 function draw(touchX, touchY) {
