@@ -59,10 +59,12 @@ function fill_axes() {
 }
 
 function resize() {
-	canvas.width = Math.ceil(window.innerWidth / pixel_size);
-	canvas.height = Math.ceil(window.innerHeight / pixel_size);
-	canvas.style.width = `${canvas.width * pixel_size}px`;
-	canvas.style.height = `${canvas.height * pixel_size}px`;
+	const physical_pixel_width = devicePixelRatio * window.innerWidth;
+	const physical_pixel_height = devicePixelRatio * window.innerHeight;
+	canvas.width = Math.ceil(physical_pixel_width / pixel_size);
+	canvas.height = Math.ceil(physical_pixel_height / pixel_size);
+	canvas.style.width = `${(canvas.width * pixel_size) / devicePixelRatio}px`;
+	canvas.style.height = `${(canvas.height * pixel_size) / devicePixelRatio}px`;
 	center_x = Math.floor(canvas.width / 2);
 	center_y = Math.floor(canvas.height / 2);
 	redraw();
@@ -160,8 +162,8 @@ function setup() {
 	resize();
 	window.onresize = resize;
 	canvas.onmousemove = (ev) => {
-		coord_x = Math.floor(ev.clientX / pixel_size) - center_x;
-		coord_y = -(Math.floor(ev.clientY / pixel_size) - center_y);
+		coord_x = Math.floor(devicePixelRatio * ev.clientX / pixel_size) - center_x;
+		coord_y = -(Math.floor(devicePixelRatio * ev.clientY / pixel_size) - center_y);
 		redraw();
 	};
 
